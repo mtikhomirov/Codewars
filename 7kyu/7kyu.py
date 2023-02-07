@@ -52,14 +52,3 @@ def ritual(n: int) -> int:
     return determinant
 
 
-print(ritual(1))
-print(ritual(2))
-print(ritual(3))
-print(ritual(4))
-print(ritual(5))
-print(ritual(6))
-print(ritual(7))
-print(ritual(8))
-print(ritual(9))
-print(ritual(10))
-
