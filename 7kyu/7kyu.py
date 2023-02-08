@@ -140,3 +140,100 @@ def create_box(m, n):
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
     """
     return [[min([i + 1, j + 1, m - i, n - j]) for i in range(m)] for j in range(n)]
+    
+    
+from itertools import groupby
+
+def yahtzee_upper(dice):
+    """ Yahtzee upper section scoring.
+        https://www.codewars.com/kata/63b4758f27f8e5000fc1e427
+        
+        Introduction
+        The game of Yahtzee is played by rolling five 6-sided dice, and scoring the results in a number of ways. 
+        For the purpose of this kata, the upper section of Yahtzee gives you six possible ways to score a roll. 
+        1 times the number of 1s in the roll, 2 times the number of 2s, 3 times the number of 3s, 
+        and so on up to 6 times the number of 6s. For instance, consider the roll [2, 3, 5, 5, 6]. 
+        If you scored this as 1s, the score would be 0, since there are no 1s in the roll. If you scored it as 2s, 
+        the score would be 2, since there's one 2 in the roll. 
+        Scoring the roll in each of the six ways gives you the six possible scores: 0 2 3 0 10 6. 
+        The maximum here is 10 (2x5), so your result should be 10.
+
+        You are given a Yahtzee dice roll, represented as a list with k integers from 1 to 10000. 
+        Your task is to find the maximum possible score for this roll in the upper section of the Yahtzee score card. 
+        Here's what that means.
+
+        Examples
+        yahtzee_upper([2, 3, 5, 5, 6]) => 10 #5*2=10 - there is two numbers 5, and that gives as 10
+        yahtzee_upper([1, 1, 1, 1, 3]) => 4  #1*4=4, while 3*1=3 - there is four numbers 1, and that gives as 4, while one number 3 gives as 3
+        yahtzee_upper([1, 1, 1, 3, 3]) => 6
+        yahtzee_upper([15, 9, 9, 8, 9]) => 27
+        yahtzee_upper([1654, 1654, 5099, 3086, 1654, 5099, 2274,
+            1654, 1654, 1654, 1654, 1654, 3086, 4868, 1654, 4868, 1654,
+            3086, 4868, 3086]) => 16540 #1654*10=16540 - large example - there is ten numbers 1654, and that gives as 16540
+    """
+    
+    dice.sort()
+    roll = [number * len(list(count)) for number, count in groupby(dice)]
+#    return max([i * dice.count(i) for i in set(dice)])
+    return max(roll)
+    
+    
+def what_branch(time):
+    """ Using Earthly Branches for Time.
+        https://www.codewars.com/kata/63b3cebaeb152e12268bdc02
+        
+        In the traditional system using Earthly Branches, a day is started by 23:00.
+        Earthly Branches contain 12 characters:
+
+        子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥
+        Not only for the years, it also can be used for the time.
+        The day starts with 子, 2 hours later become 丑, then 寅, and so on.
+
+        子: 23:00 - 0:59
+        丑: 1:00 - 2:59
+        寅: 3:00 - 4:59
+        and so on.
+
+        Task:
+        Given a time as a string(hh:mm), return the Earthly Branch for that time.
+        The string would use 24-hours. It may have leading zero for minute, but no leading zero for hour.
+
+        Examples (input -> output)
+        23:00 -> 子
+        0:00 -> 子
+        1:00 -> 丑
+        2:59 -> 丑
+        3:00 -> 寅
+    """
+    earthly_branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
+    hours = int(time.split(':')[0])
+    return earthly_branches[((hours + 1) // 2) % 12]
+    
+    
+def alphabet(ns):
+    """ The alphabet product.
+        https://www.codewars.com/kata/63b06ea0c9e1ce000f1e2407
+        
+        I have four positive integers, A, B, C and D, where A < B < C < D. 
+        The input is a list of the integers A, B, C, D, AxB, BxC, CxD, DxA in some order. 
+        Your task is to return the value of D.
+    """
+    ns.sort()
+    ns.remove(int(ns[0]*ns[1]))
+    return int(ns[6]/ns[2])
+
+
+from math import isqrt
+
+def max_df(a_n: int) -> int:
+    """ Maximum different differences.
+        https://www.codewars.com/kata/63adf4596ef0071b42544b9a
+        
+        Input
+        a_n: (int) The maximum/last element of 
+
+        Output
+        (int) The maximum possible characteristic based on a_n
+​    """
+    n = (isqrt(8 * a_n) - 1) // 2
+    return n    
