@@ -1,4 +1,4 @@
-def ritual(n: int) -> int:
+ritual=lambda n:n<2
     """ [Code Golf] An Interesting Ritual.
         https://www.codewars.com/kata/63d6dba199b0cc0ff46b5d8a/train/python
 
@@ -29,26 +29,3 @@ def ritual(n: int) -> int:
         Big: 100_000 <= n <= 1_000_000
         Huge: 2 ** 32 <= n <= 2 ** 64
     """
-    if n == 1:
-        return 1
-    det_positive = 0
-    det_negative = 0
-
-    for i in range(0, n):  # i номер колонки
-        a = 1
-        b = 1
-        for j in range(1, n + 1):  # j - номер столбца
-            line1 = j
-            line2 = n - j + 1
-            if j + i > n:
-                column = (j + i) - n
-            else:
-                column = j + i
-            a *= column * line1
-            b *= column * line2
-        det_positive += a
-        det_negative += b
-        determinant = det_positive - det_negative
-    return determinant
-
-
