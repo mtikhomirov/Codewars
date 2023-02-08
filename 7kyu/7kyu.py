@@ -79,7 +79,7 @@ def set_reducer(inp):
 
         Rules and assertions
         All test arrays will be 2+ in length
-        All integers in the test arrays will be positive numbers from 0 - 9
+        All integers in the test arrays will be positive numbers from 0 to 9
         You should return an integer, not an array with 1 element
     """  
     
