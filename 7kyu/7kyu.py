@@ -275,3 +275,126 @@ def can_escape(walls):
         if min(walls[i]) <= i+1:
             return False
     return  True
+
+
+def to_imparfait(verb_phrase):
+    """ French Imparfait Conjugation.
+        https://www.codewars.com/kata/6394c1995e54bd00307cf768
+        
+        Task
+        Given a simple French phrase, consisting of a subject and a verb in its infinitive form, 
+        you need to turn it into L'imparfait, using the table below. 
+        To conjugate a sentence in l'imparfait, drop the last two letters of the verb and 
+        replace it with the correct ending based on the subject.
+
+        Here are the endings to replace the verb with:
+
+        Subject	Verb Ending
+        Je (I)	-ais
+        Tu (You)	-ais
+        Il/Elle/On (He/She/It or We)	-ait
+        Nous (We)	-ions
+        Vous (You or Y'all)	-iez
+        Ils/Elles (They)	-aient
+        Let's say you want to translate I was walking to French:
+
+        Take the subject + infinitive: Je marcher
+        Remove the last two letters: Je march
+        Apply the correct ending: Je marchais
+        You get Je marchais, which can be checked with our handy dandy google translate.
+    """
+    france_dict = {
+        'Je': 'ais',
+        'Tu': 'ais',
+        'Il': 'ait',
+        'Elle': 'ait',
+        'On': 'ait',
+        'Nous': 'ions',
+        'Vous': 'iez',
+        'Ils': 'aient',
+        'Elles': 'aient'
+    }
+    return verb_phrase[:-2]+france_dict[verb_phrase.split()[0]]
+
+
+def perpendicular(n):
+    """ Perpendicular lines.
+        https://www.codewars.com/kata/6391fe3f322221003db3bad6
+        
+        You are given an input (n) which represents the amount of lines you are given, 
+        your job is to figure out what is the maximum amount of perpendicular bisectors 
+        you can make using these lines.
+
+        Note: A perpendicular bisector is one that forms a 90 degree angle
+
+        n will always be greater than or equal to 0
+    """
+    return (n // 2) * (n - n // 2)
+
+
+import socket
+def socket_client():
+    """ Simple Socket Client.
+        https://www.codewars.com/kata/639107e0df52b9cb82720575
+        
+        There is a socket listening on port 1111 of local host.
+
+        The socket either belongs to a server that sends back anything you send to it, 
+        or to a server that reverses anything you send to it.
+
+        Create a function that does the following:
+
+        Connects to the socket on port 1111.
+        Sends one packet to the server.
+        Receives one packet from the server.
+        Returns True if the server is the regular type (i.e., it sends back the same packet that was sent to it), 
+        or False if the server is the reversing type (i.e., it reverses the packet that was sent to it).
+        Make sure to close the socket after you are done using it. 
+        If you time out while trying to connect, it is likely that you did not connect, send, receive, 
+        and close the socket in the correct order.
+    """
+    HOST = 'localhost'
+    PORT = 1111
+    SEND_TEXT = b'sample tests'
+    
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect((HOST, PORT))
+        sock.send(SEND_TEXT)
+        response = sock.recv(1024)
+        sock.close()
+    return response == SEND_TEXT
+
+
+def cube(n):
+    """ Rubik's Cube Art.
+        https://www.codewars.com/kata/6387ea2cf418c41d277f3ffa
+        
+        To complete this kata you will have to finish a function that returns a string 
+        of characters which when printed resemble a Rubik's cube. 
+        The function is named cube, and it has one integer parameter (formal argument) n, 
+        for the dimensions of the cube.
+    """
+    string = ''
+    for i in range(n):
+        string +=' ' * (n - 1 - i) + '/\\' * (i + 1) + '_\\' * n + '\n'
+    for i in range(n):
+        string +=" " * i + '\\/' * (n - i) + '_/' * n + '\n'
+    return string.rstrip('\n')
+
+
+def get_sum(n):
+    """ Summation Triangle #1.
+        https://www.codewars.com/kata/6357825a00fba284e0189798
+        
+        The task
+        You have to make a program capable of returning the sum of all the elements 
+        of a triangle with side of size n+1.
+
+        The problem
+        . Brute-forcing will not work!
+
+        The definition
+        A triangle element aij where is the column and j is the row can be defined as 
+        aij = 2j + i + 1 where 0≤ i ≤ j ≤ n
+    """
+    return (n + 1) * (n + 2) * (4 * n + 3) // 6
