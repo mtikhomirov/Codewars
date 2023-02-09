@@ -398,3 +398,56 @@ def get_sum(n):
         aij = 2j + i + 1 where 0≤ i ≤ j ≤ n
     """
     return (n + 1) * (n + 2) * (4 * n + 3) // 6
+
+
+def contact(hallway):
+    left = [i for i in range(len(hallway)) if hallway[i] == '<']
+    right = [i for i in range(len(hallway)) if hallway[i] == '>']
+    dist = -1
+    for i in range(len(left)):
+        for j in range(len(right)):
+            d = left[i] - right[j]
+            if d > 0 and (d < dist or dist == -1):
+                dist = d
+    if dist < 0:
+        return -1
+    cont = (dist + 1) // 2
+    return cont
+
+def contact(hallway):
+    left = [i for i in range(len(hallway)) if hallway[i] == '<']
+    right = [i for i in range(len(hallway)) if hallway[i] == '>']
+    d = [(left[i] - right[j] + 1) // 2 for i in range(len(left)) for j in range(len(right)) if left[i] - right[j] > 0]
+    return -1 if not d else min(d)
+
+def contact(hallway):
+    d = 0
+    flag = False
+    for index, sym in enumerate(hallway):
+        if sym == '>':
+            left = index
+            flag = True
+        elif sym =='<' and flag:
+            right = index
+            flag = False
+            if not d or right - left < d:
+                d = right - left
+    return -1 if not d else (d + 1) // 2
+
+def contact(hallway):
+    d = 0
+    right = 0
+    while right > -1:
+        right = hallway.find('<')
+        left = hallway.rfind('>', 0, right)
+        if (not d or right - left < d) and left > -1 and right > -1:
+            d = right - left
+        hallway = hallway[right+1:]
+    return -1 if not d else (d + 1) // 2
+
+
+import re
+
+def contact(hallway):
+    pairs = re.findall('>-*<', hallway)
+    return min(map(len, pairs)) // 2 if pairs else -1
