@@ -518,3 +518,41 @@ def movie_times(open, close, length):
 def convert_to_hours(time):
     hours, minuts = divmod(time, 60)
     return hours % 24, minuts
+
+
+# starting_piece: a string, either 'r', 'b', 'q'
+# starting_row: an integer from 0 to 4 inclusive
+# starting_column: an integer from 0 to 4 inclusive
+def transforming_chess(starting_piece, starting_row, starting_column):
+    """ Transforming Chess Piece Puzzle.
+        https://www.codewars.com/kata/635d9b5c8f20017aa1cf2cf6
+    """
+    # you must return one of three strings:
+    # 'win' if Player 1 has a guaranteed win
+    # 'lose' if Player 1 is guaranteed to lose
+    # 'draw' if the game is a never-ending infinite draw
+    VARIANT = {
+        'r': [
+            ['win', 'win', 'win', 'win', 'win'],
+            ['win', 'draw', 'win', 'draw', 'win'],
+            ['win', 'win', 'win', 'win', 'win'],
+            ['win', 'draw', 'win', 'draw', 'win'],
+            ['win', 'win', 'win', 'win', 'win'],       
+        ],
+        'b': [
+            ['win', 'draw', 'lose', 'draw', 'win'],
+            ['draw', 'win', 'draw', 'win', 'draw'],
+            ['lose', 'draw', 'win', 'draw', 'lose'],
+            ['draw', 'win', 'draw', 'win', 'draw'],
+            ['win', 'draw', 'lose', 'draw', 'win'],       
+        ],
+        'q': [
+            ['win', 'win', 'win', 'win', 'win'],
+            ['win', 'win', 'draw', 'win', 'win'],
+            ['win', 'draw', 'win', 'draw', 'win'],
+            ['win', 'win', 'draw', 'win', 'win'],
+            ['win', 'win', 'win', 'win', 'win'],       
+        ]
+    }
+    res = VARIANT[starting_piece][starting_row][starting_column]
+    return res
