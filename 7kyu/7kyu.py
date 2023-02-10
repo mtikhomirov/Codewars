@@ -401,53 +401,120 @@ def get_sum(n):
 
 
 def contact(hallway):
-    left = [i for i in range(len(hallway)) if hallway[i] == '<']
-    right = [i for i in range(len(hallway)) if hallway[i] == '>']
-    dist = -1
-    for i in range(len(left)):
-        for j in range(len(right)):
-            d = left[i] - right[j]
-            if d > 0 and (d < dist or dist == -1):
-                dist = d
-    if dist < 0:
-        return -1
-    cont = (dist + 1) // 2
-    return cont
+    """ Walking in the hallway.
+        https://www.codewars.com/kata/6368426ec94f16a1e7e137fc
+        
+        You are a security guard at a large company, your job is to look over the cameras. 
+        Finding yourself bored you decide to make a game from the people walking in a hallway on one of the cameras. 
+        As many people walk past the hallway you decide to figure out the minimum steps it will take before 2 people 
+        cross or come into contact with each other (assuming every person takes a step at the same time).
 
-def contact(hallway):
-    left = [i for i in range(len(hallway)) if hallway[i] == '<']
-    right = [i for i in range(len(hallway)) if hallway[i] == '>']
-    d = [(left[i] - right[j] + 1) // 2 for i in range(len(left)) for j in range(len(right)) if left[i] - right[j] > 0]
-    return -1 if not d else min(d)
+        People are represented as arrows, < for a person moving left and > for a person moving right and - for an empty space
 
-def contact(hallway):
-    d = 0
-    flag = False
-    for index, sym in enumerate(hallway):
-        if sym == '>':
-            left = index
-            flag = True
-        elif sym =='<' and flag:
-            right = index
-            flag = False
-            if not d or right - left < d:
-                d = right - left
-    return -1 if not d else (d + 1) // 2
+        A step represents a person moving forward one -, each person moves 1 step at the same time
 
-def contact(hallway):
-    d = 0
-    right = 0
-    while right > -1:
-        right = hallway.find('<')
-        left = hallway.rfind('>', 0, right)
-        if (not d or right - left < d) and left > -1 and right > -1:
-            d = right - left
-        hallway = hallway[right+1:]
-    return -1 if not d else (d + 1) // 2
+        in this example the first people to come in contact with each other do it after 1 step
+        ---><----
+        in this example the first people to come in contact with each other do it after 1 step
+        --->-<------->----<-
+        in the case that no people come in contact return -1
+        ----<----->----
+    """
+#    left = [i for i in range(len(hallway)) if hallway[i] == '<']
+#    right = [i for i in range(len(hallway)) if hallway[i] == '>']
+#    dist = -1
+#    for i in range(len(left)):
+#        for j in range(len(right)):
+#            d = left[i] - right[j]
+#            if d > 0 and (d < dist or dist == -1):
+#                dist = d
+#    if dist < 0:
+#        return -1
+#    cont = (dist + 1) // 2
+#    return cont
+
+#def contact(hallway):
+#    left = [i for i in range(len(hallway)) if hallway[i] == '<']
+#    right = [i for i in range(len(hallway)) if hallway[i] == '>']
+#    d = [(left[i] - right[j] + 1) // 2 for i in range(len(left)) for j in range(len(right)) if left[i] - right[j] > 0]
+#   return -1 if not d else min(d)
+#
+#def contact(hallway):
+#    d = 0
+#    flag = False
+#    for index, sym in enumerate(hallway):
+#        if sym == '>':
+#            left = index
+#            flag = True
+#        elif sym =='<' and flag:
+#            right = index
+#            flag = False
+#            if not d or right - left < d:
+#                d = right - left
+#    return -1 if not d else (d + 1) // 2
+
+#def contact(hallway):
+#    d = 0
+#    right = 0
+#    while right > -1:
+#        right = hallway.find('<')
+#        left = hallway.rfind('>', 0, right)
+#        if (not d or right - left < d) and left > -1 and right > -1:
+#            d = right - left
+#        hallway = hallway[right+1:]
+#    return -1 if not d else (d + 1) // 2
 
 
 import re
 
-def contact(hallway):
+#def contact(hallway):
     pairs = re.findall('>-*<', hallway)
     return min(map(len, pairs)) // 2 if pairs else -1
+
+
+def movie_times(open, close, length):
+    """ Movie Showtimes.
+        https://www.codewars.com/kata/6376bbc66f2ae900343b7010
+        
+        You just started working at a local cinema, 
+        and your first task is to write a function that returns the showtimes of a specific movie, 
+        given its length. In order to make your job easier, 
+        you will work with 24-hour format throughout this kata.
+
+        Your function receives three parameters, all of them being integers:
+
+        open - Hour at which the cinema opens.
+        close - Hour at which the cinema closes.
+        length - Length of the movie, in minutes.
+        It must return an array of times, with each time being in the format (hour, minute). 
+        For example, (19, 30) means 19:30, and (2, 0) means 02:00. 
+        The last session in the array cannot end after the cinema closes. 
+        Also, the times in the array must be sorted from earliest to latest.
+
+        There's also a 15-minute window between a session's end and the beginning of the following one, 
+        in order to give enough time for users to take a seat.
+
+        For example, for a cinema opening at 13:00 and closing at 23:00 showing a 60-minute movie, 
+        your function must return the following array:
+
+        >>> movie_times(13, 23, 60)
+        [(13, 0), (14, 15), (15, 30), (16, 45), (18, 0), (19, 15), (20, 30), (21, 45)]
+        Note that the cinema might close at times such as 02:00 or 03:00, meaning examples like this must also work:
+
+        >>> movie_times(16, 3, 75)
+        [(16, 0), (17, 30), (19, 0), (20, 30), (22, 0), (23, 30), (1, 0)]
+        IMPORTANT: For languages other than Python, just return an array of arrays. 
+        See sample test cases for more info on how to return the list of times.
+
+        NOTE: This kata isn't meant to be too challenging, so opening times for all tests will be 12:00 or later, 
+        and closing times will always be 6:00 or earlier.
+
+        NOTE 2: Midnight will be represented as (0, 0) or 0:00 in this kata, instead of 24:00.
+    """
+    gap = 15
+    open, close = open * 60, (close + 24 * (close < 12)) * 60
+    return list(map(convert_to_hours, range(open, close - length + 1, length + gap)))
+
+def convert_to_hours(time):
+    hours, minuts = divmod(time, 60)
+    return hours % 24, minuts
